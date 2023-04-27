@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 function App() {
-  const initialValues = { username: "", email: "", password: "" };
+  const initialValues = { username: "", email: "", password: "" ,confirmpassword:""};
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -39,7 +39,12 @@ function App() {
       errors.password = "Password must be more than 4 characters";
     } else if (values.password.length > 10) {
       errors.password = "Password must be less than 10 characters";
+    }if (!values.confirmpassword) {
+      errors.confirmpassword = "Confirm password is required";
+    } else if (values.password !== values.confirmpassword) {
+      errors.confirmpassword = "Passwords do not match";
     }
+    
     return errors;
   };
 
@@ -89,7 +94,17 @@ function App() {
             />
           </div>
           <p>{formErrors.password}</p>
-          <div>
+          <div className="field">
+            <label>Confirm Password</label>
+            <input
+              type="password"
+              name="confirmpassword"
+              placeholder="passwords"
+              value={formValues.confirmpassword}
+              onChange={handleChange}
+            />
+          </div>
+          <p>{formErrors.confirmpassword}</p>
             <button className="fluid ui button blue" >
               Submit
             </button>
@@ -110,7 +125,7 @@ function App() {
             bodyClassName="toast-body"
             theme="light"/>                  
           </div>
-        </div>
+        
       </form>
     </div>
   );
